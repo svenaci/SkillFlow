@@ -1,6 +1,7 @@
 "use client";
 import { usePathname } from "next/navigation";
 import React from "react";
+import Link from "next/link";
 import {
   HiOutlineHome,
   HiOutlineSquare3Stack3D,
@@ -61,14 +62,16 @@ function Sidebar() {
       <hr className="my-5" />
       <ul>
         {Menu.map((element) => (
-          <div
-            className={`flex items-center gap-2 text-gray-600 p-3 cursor-pointer hover:bg-gray-100 hover:text-black rounded-lg ${
-              element.path == path && "bg-gray-100 text-black"
-            }`}
-          >
-            <div className="text-2xl">{element.icon}</div>
-            <h2>{element.name}</h2>
-          </div>
+          <Link href={element.path}>
+            <div
+              className={`flex items-center gap-2 text-gray-600 p-3 cursor-pointer hover:bg-gray-100 hover:text-black rounded-lg ${
+                element.path == path && "bg-gray-100 text-black"
+              }`}
+            >
+              <div className="text-2xl">{element.icon}</div>
+              <h2>{element.name}</h2>
+            </div>
+          </Link>
         ))}
       </ul>
     </div>
