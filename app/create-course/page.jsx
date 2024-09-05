@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import React, { useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   HiClipboardDocumentCheck,
   HiLightBulb,
@@ -9,6 +9,7 @@ import {
 import CategoryPicker from "./_components/CategoryPicker";
 import TopicDescription from "./_components/TopicDescription";
 import OptionPicker from "./_components/OptionPicker";
+import { UserInputContext } from "@/app/_context/UserInputContext";
 
 function CreateCourse() {
   const StepperOptions = [
@@ -29,7 +30,13 @@ function CreateCourse() {
     },
   ];
 
+  const { userCourseInput, setUserCourseInput } = useContext(UserInputContext);
+
   const [currentStepperIndex, setCurrentStepperIndex] = useState(0);
+
+  useEffect(() => {
+    console.log(userCourseInput);
+  }, [userCourseInput]);
 
   return (
     <div>
@@ -41,7 +48,7 @@ function CreateCourse() {
               <div className="flex flex-col items-center w-[50px] md:w-[100px]">
                 <div
                   className={`bg-gray-200 p-3 rounded-full text-white ${
-                    currentStepperIndex >= index && "bg-purple-400"
+                    currentStepperIndex >= index && "bg-purple-500"
                   }`}
                 >
                   {element.icon}

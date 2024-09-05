@@ -1,8 +1,17 @@
+import { UserInputContext } from "@/app/_context/UserInputContext";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import React from "react";
+import React, { useContext } from "react";
 
 function TopicDescription() {
+  const { userCourseInput, setUserCourseInput } = useContext(UserInputContext);
+
+  const handleTopicChange = (fieldName, value) => {
+    setUserCourseInput((prev) => ({
+      ...prev,
+      [fieldName]: value,
+    }));
+  };
   return (
     <div className="mx-20 lg:mx-44">
       <div className="mt-5">
@@ -11,7 +20,11 @@ function TopicDescription() {
           Write the topic for which you want to generate a course (e.g. Java
           Course, Yoga, etc.):
         </label>
-        <Input placeholder={"Topic of your choice"} />
+        <Input
+          placeholder={"Topic of your choice"}
+          className="h-14 text-xl"
+          onChange={(e) => handleTopicChange("topic", e.target.value)}
+        />
       </div>
       <div className="mt-5">
         📝
@@ -23,6 +36,8 @@ function TopicDescription() {
           placeholder={
             "Add some description about the course you want to generate"
           }
+          className="h-24 text-xl"
+          onChange={(e) => handleTopicChange("description", e.target.value)}
         />
       </div>
     </div>
