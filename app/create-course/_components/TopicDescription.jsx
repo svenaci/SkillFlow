@@ -23,6 +23,7 @@ function TopicDescription() {
         <Input
           placeholder={"Topic of your choice"}
           className="h-14 text-xl"
+          defaultValue={userCourseInput?.topic}
           onChange={(e) => handleTopicChange("topic", e.target.value)}
         />
       </div>
@@ -37,6 +38,7 @@ function TopicDescription() {
             "Add some description about the course you want to generate"
           }
           className="h-24 text-xl"
+          defaultValue={userCourseInput?.description}
           onChange={(e) => handleTopicChange("description", e.target.value)}
         />
       </div>

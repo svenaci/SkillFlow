@@ -25,7 +25,10 @@ function OptionPicker() {
         <div>
           🎓
           <label className="ml-2 text-sm">Difficulty Level</label>
-          <Select onValueChange={(value) => handlePickedOption("level", value)}>
+          <Select
+            onValueChange={(value) => handlePickedOption("level", value)}
+            defaultValue={userCourseInput?.level}
+          >
             <SelectTrigger className="">
               <SelectValue placeholder="Theme" />
             </SelectTrigger>
@@ -41,6 +44,7 @@ function OptionPicker() {
           <label className="ml-2 text-sm">Course Duration</label>
           <Select
             onValueChange={(value) => handlePickedOption("duration", value)}
+            defaultValue={userCourseInput?.duration}
           >
             <SelectTrigger className="">
               <SelectValue placeholder="Theme" />
@@ -59,6 +63,7 @@ function OptionPicker() {
           <label className="ml-2 text-sm">Add Video</label>
           <Select
             onValueChange={(value) => handlePickedOption("hasVideo", value)}
+            defaultValue={userCourseInput?.hasVideo}
           >
             <SelectTrigger className="">
               <SelectValue placeholder="Theme" />
@@ -75,6 +80,7 @@ function OptionPicker() {
           <Input
             type="number"
             className="h-14 text-lg"
+            defaultValue={userCourseInput?.numberOfChapters}
             onChange={(event) =>
               handlePickedOption("numberOfChapters", event.target.value)
             }

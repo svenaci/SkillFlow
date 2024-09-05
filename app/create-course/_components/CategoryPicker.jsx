@@ -27,7 +27,7 @@ function CategoryPicker() {
             onClick={() => handlePickedCategory(element.name)}
             key={index}
           >
-            <Image src={element.icon} width={100} height={100} />
+            <Image src={element.icon} width={100} height={100} alt="category" />
             <h2>{element.name}</h2>
           </div>
         ))}
