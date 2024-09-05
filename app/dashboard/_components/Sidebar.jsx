@@ -1,3 +1,5 @@
+"use client";
+import { usePathname } from "next/navigation";
 import React from "react";
 import {
   HiOutlineHome,
@@ -18,21 +20,23 @@ function Sidebar() {
       id: 2,
       name: "Explore",
       icon: <HiOutlineSquare3Stack3D />,
-      path: "/dashboard",
+      path: "/dashboard/explore",
     },
     {
       id: 3,
       name: "Upgrade",
       icon: <HiOutlineShieldCheck />,
-      path: "/dashboard",
+      path: "/dashboard/upgrade",
     },
     {
       id: 4,
       name: "Logout",
       icon: <HiOutlinePower />,
-      path: "/dashboard",
+      path: "/dashboard/logout",
     },
   ];
+
+  const path = usePathname();
 
   return (
     <div className="fixed h-full md:w-64 p-5 shadow-md">
@@ -57,8 +61,13 @@ function Sidebar() {
       <hr className="my-5" />
       <ul>
         {Menu.map((element) => (
-          <div>
-            <div>{element.icon}</div>
+          <div
+            className={`flex items-center gap-2 text-gray-600 p-3 cursor-pointer hover:bg-gray-100 hover:text-black rounded-lg ${
+              element.path == path && "bg-gray-100 text-black"
+            }`}
+          >
+            <div className="text-2xl">{element.icon}</div>
+            <h2>{element.name}</h2>
           </div>
         ))}
       </ul>
