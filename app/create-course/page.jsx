@@ -6,6 +6,8 @@ import {
   HiLightBulb,
   HiMiniSquares2X2,
 } from "react-icons/hi2";
+import CategoryPicker from "./_components/CategoryPicker";
+import TopicDescription from "./_components/TopicDescription";
 
 function CreateCourse() {
   const StepperOptions = [
@@ -57,6 +59,11 @@ function CreateCourse() {
         </div>
       </div>
       <div className="px-10 md:px-20 lg:px-44 mt-10">
+        {currentStepperIndex == 0 ? (
+          <CategoryPicker />
+        ) : currentStepperIndex == 1 ? (
+          <TopicDescription />
+        ) : null}
         <div className="flex justify-between mt-10">
           <Button
             disabled={currentStepperIndex == 0}
