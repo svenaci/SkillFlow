@@ -56,10 +56,31 @@ function CreateCourse() {
           ))}
         </div>
       </div>
-      <div>
-        <Button onClick={() => setCurrentStepperIndex(currentStepperIndex + 1)}>
-          Next
-        </Button>
+      <div className="px-10 md:px-20 lg:px-44 mt-10">
+        <div className="flex justify-between mt-10">
+          <Button
+            disabled={currentStepperIndex == 0}
+            onClick={() => setCurrentStepperIndex(currentStepperIndex - 1)}
+            variant="outline"
+          >
+            Previous
+          </Button>
+          {currentStepperIndex < 2 && (
+            <Button
+              onClick={() => setCurrentStepperIndex(currentStepperIndex + 1)}
+            >
+              Next
+            </Button>
+          )}
+
+          {currentStepperIndex == 2 && (
+            <Button
+              onClick={() => setCurrentStepperIndex(currentStepperIndex + 1)}
+            >
+              Generate Course
+            </Button>
+          )}
+        </div>
       </div>
     </div>
   );
