@@ -8,6 +8,7 @@ import {
   HiOutlineShieldCheck,
   HiOutlinePower,
 } from "react-icons/hi2";
+import { Progress } from "@/components/ui/progress";
 
 function Sidebar() {
   const Menu = [
@@ -74,6 +75,10 @@ function Sidebar() {
           </Link>
         ))}
       </ul>
+      <div className="absolute bottom-10 w-[80%]">
+        <Progress value={33} />
+        <h2>3 out of 5 course created</h2>
+      </div>
     </div>
   );
 }
