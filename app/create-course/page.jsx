@@ -16,6 +16,7 @@ import { db } from "@/configs/db";
 import { CourseList } from "@/configs/schema";
 import uuid4 from "uuid4";
 import { useUser } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
 
 function CreateCourse() {
   const StepperOptions = [
@@ -40,6 +41,7 @@ function CreateCourse() {
   const { user } = useUser();
   const [currentStepperIndex, setCurrentStepperIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const isNextButtonDisabled = () => {
     if (userCourseInput?.length == 0) {
@@ -95,7 +97,7 @@ function CreateCourse() {
   const SaveCourseInDB = async (course) => {
     var id = uuid4();
     try {
-      const response = await db.insert(CourseList).values({
+      await db.insert(CourseList).values({
         courseId: id,
         name: userCourseInput?.topic,
         level: userCourseInput?.level,
@@ -106,6 +108,7 @@ function CreateCourse() {
         userName: user?.fullName,
         userProfileImage: user?.imageUrl,
       });
+      router.replace("/create-course/" + id);
     } catch (e) {
       console.log(e);
     }
