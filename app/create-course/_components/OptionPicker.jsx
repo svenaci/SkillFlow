@@ -79,7 +79,7 @@ function OptionPicker() {
           <label className="ml-2 text-sm">Number of Chapters</label>
           <Input
             type="number"
-            className="h-14 text-lg"
+            className="h-9 text-lg"
             defaultValue={userCourseInput?.numberOfChapters}
             onChange={(event) =>
               handlePickedOption("numberOfChapters", event.target.value)

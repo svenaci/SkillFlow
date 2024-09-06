@@ -34,6 +34,30 @@ function CreateCourse() {
 
   const [currentStepperIndex, setCurrentStepperIndex] = useState(0);
 
+  const isNextButtonDisabled = () => {
+    if (userCourseInput?.length == 0) {
+      return true;
+    }
+    if (
+      currentStepperIndex == 1 &&
+      (userCourseInput?.topic?.length == 0 ||
+        userCourseInput?.topic == undefined)
+    ) {
+      return true;
+    }
+    if (
+      currentStepperIndex == 2 &&
+      (userCourseInput?.topic?.length == 0 ||
+        userCourseInput?.level == undefined ||
+        userCourseInput?.duration == undefined ||
+        userCourseInput?.hasVideo == undefined ||
+        userCourseInput?.numberOfChapters == undefined)
+    ) {
+      return true;
+    }
+    return false;
+  };
+
   useEffect(() => {
     console.log(userCourseInput);
   }, [userCourseInput]);
@@ -85,6 +109,7 @@ function CreateCourse() {
           {currentStepperIndex < 2 && (
             <Button
               onClick={() => setCurrentStepperIndex(currentStepperIndex + 1)}
+              disabled={isNextButtonDisabled()}
             >
               Next
             </Button>
@@ -93,6 +118,7 @@ function CreateCourse() {
           {currentStepperIndex == 2 && (
             <Button
               onClick={() => setCurrentStepperIndex(currentStepperIndex + 1)}
+              disabled={isNextButtonDisabled()}
             >
               Generate Course
             </Button>
