@@ -12,6 +12,10 @@ import OptionPicker from "./_components/OptionPicker";
 import { UserInputContext } from "@/app/_context/UserInputContext";
 import { generateCourse } from "@/configs/AIModel";
 import LoadingDialog from "./_components/LoadingDialog";
+import { db } from "@/configs/db";
+import { CourseList } from "@/configs/schema";
+import uuid4 from "uuid4";
+import { useUser } from "@clerk/nextjs";
 
 function CreateCourse() {
   const StepperOptions = [
@@ -33,7 +37,7 @@ function CreateCourse() {
   ];
 
   const { userCourseInput, setUserCourseInput } = useContext(UserInputContext);
-
+  const { user } = useUser();
   const [currentStepperIndex, setCurrentStepperIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -80,11 +84,30 @@ function CreateCourse() {
     try {
       setIsLoading(true);
       const response = await generateCourse.sendMessage(FINAL_PROMPT);
-      console.log(response?.response?.text());
+      SaveCourseInDB(JSON.parse(response?.response?.text()));
     } catch (error) {
       console.log(error);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const SaveCourseInDB = async (course) => {
+    var id = uuid4();
+    try {
+      const response = await db.insert(CourseList).values({
+        courseId: id,
+        name: userCourseInput?.topic,
+        level: userCourseInput?.level,
+        category: userCourseInput?.category,
+        category: userCourseInput?.category,
+        courseOutput: course,
+        createdBy: user?.primaryEmailAddress?.emailAddress,
+        userName: user?.fullName,
+        userProfileImage: user?.imageUrl,
+      });
+    } catch (e) {
+      console.log(e);
     }
   };
 
