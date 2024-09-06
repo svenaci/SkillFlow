@@ -51,7 +51,7 @@ function OptionPicker() {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="1 Hours">1 Hours</SelectItem>
-              <SelectItem value="Intermediate">2 Hours</SelectItem>
+              <SelectItem value="2 Hours">2 Hours</SelectItem>
               <SelectItem value="More than 3 hours">
                 More than 3 hours
               </SelectItem>
