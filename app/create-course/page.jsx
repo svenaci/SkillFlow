@@ -11,6 +11,7 @@ import TopicDescription from "./_components/TopicDescription";
 import OptionPicker from "./_components/OptionPicker";
 import { UserInputContext } from "@/app/_context/UserInputContext";
 import { generateCourse } from "@/configs/AIModel";
+import LoadingDialog from "./_components/LoadingDialog";
 
 function CreateCourse() {
   const StepperOptions = [
@@ -34,6 +35,7 @@ function CreateCourse() {
   const { userCourseInput, setUserCourseInput } = useContext(UserInputContext);
 
   const [currentStepperIndex, setCurrentStepperIndex] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
 
   const isNextButtonDisabled = () => {
     if (userCourseInput?.length == 0) {
@@ -75,10 +77,15 @@ function CreateCourse() {
       userCourseInput?.numberOfChapters +
       ", in JSON format";
     const FINAL_PROMPT = BASIC_PROMPT + USER_INPUT_PROMPT;
-
-    console.log(FINAL_PROMPT);
-    const response = await generateCourse.sendMessage(FINAL_PROMPT);
-    console.log(response?.response?.text());
+    try {
+      setIsLoading(true);
+      const response = await generateCourse.sendMessage(FINAL_PROMPT);
+      console.log(response?.response?.text());
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -87,6 +94,7 @@ function CreateCourse() {
 
   return (
     <div>
+      <LoadingDialog loading={isLoading} />
       <div className="flex flex-col justify-center items-center mt-10">
         <h2 className="text-4xl text-primary font-medium">Create Course</h2>
         <div className="flex mt-10">
