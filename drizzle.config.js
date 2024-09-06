@@ -1,4 +1,8 @@
-/** @type { import("drizzle-kit").Config } */
+import { cwd } from "node:process";
+import { loadEnvConfig } from "@next/env";
+
+loadEnvConfig(cwd());
+
 export default {
   schema: "./configs/schema.jsx",
   dialect: "postgresql",

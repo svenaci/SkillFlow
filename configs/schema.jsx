@@ -8,6 +8,6 @@ export const CourseList = pgTable("courseList", {
   level: varchar("level").notNull(),
   courseOutput: json("courseOutput").notNull(),
   createdBy: varchar("createdBy").notNull(),
-  userName: varchar("userName").notNull(),
+  userName: varchar("userName"),
   userProfileImage: varchar("userProfileImage"),
 });
