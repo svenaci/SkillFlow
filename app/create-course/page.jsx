@@ -10,6 +10,7 @@ import CategoryPicker from "./_components/CategoryPicker";
 import TopicDescription from "./_components/TopicDescription";
 import OptionPicker from "./_components/OptionPicker";
 import { UserInputContext } from "@/app/_context/UserInputContext";
+import { generateCourse } from "@/configs/AIModel";
 
 function CreateCourse() {
   const StepperOptions = [
@@ -56,6 +57,28 @@ function CreateCourse() {
       return true;
     }
     return false;
+  };
+
+  const handleGenerateCourse = async () => {
+    const BASIC_PROMPT =
+      "Generate a course tutorial on following detail with field as Course Name, Description, along with Chapter Name, about, Duration: ";
+    const USER_INPUT_PROMPT =
+      "Category: " +
+      userCourseInput?.category +
+      ", Topic: " +
+      userCourseInput?.topic +
+      ", Level: " +
+      userCourseInput?.level +
+      ", Duration: " +
+      userCourseInput?.duration +
+      ", numberOfChapter: " +
+      userCourseInput?.numberOfChapters +
+      ", in JSON format";
+    const FINAL_PROMPT = BASIC_PROMPT + USER_INPUT_PROMPT;
+
+    console.log(FINAL_PROMPT);
+    const response = await generateCourse.sendMessage(FINAL_PROMPT);
+    console.log(response?.response?.text());
   };
 
   useEffect(() => {
@@ -117,7 +140,7 @@ function CreateCourse() {
 
           {currentStepperIndex == 2 && (
             <Button
-              onClick={() => setCurrentStepperIndex(currentStepperIndex + 1)}
+              onClick={() => handleGenerateCourse()}
               disabled={isNextButtonDisabled()}
             >
               Generate Course
