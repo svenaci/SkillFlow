@@ -3,10 +3,14 @@ import { db } from "@/configs/db";
 import { CourseList } from "@/configs/schema";
 import { useUser } from "@clerk/nextjs";
 import { and, eq } from "drizzle-orm";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import CourseInfo from "./_components/CourseInfo";
+import CourseDetail from "./_components/CourseDetail";
 
 function CoursePage({ params }) {
   const { user } = useUser();
+  const [course, setCourse] = useState([]);
+
   useEffect(() => {
     params && GetCourse();
   }, [params, user]);
@@ -21,9 +25,16 @@ function CoursePage({ params }) {
           eq(CourseList?.createdBy, user?.primaryEmailAddress?.emailAddress)
         )
       );
+    setCourse(response[0]);
     console.log(response);
   };
-  return <div>CoursePage</div>;
+  return (
+    <div className="mt-10 px-7 md:px-20 lg:px-44">
+      <h2 className="font-bold text-center text-2xl">Course Layout</h2>
+      <CourseInfo course={course} />
+      <CourseDetail course={course} />
+    </div>
+  );
 }
 
 export default CoursePage;
