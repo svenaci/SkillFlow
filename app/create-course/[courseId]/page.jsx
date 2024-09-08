@@ -6,6 +6,7 @@ import { and, eq } from "drizzle-orm";
 import React, { useEffect, useState } from "react";
 import CourseInfo from "./_components/CourseInfo";
 import CourseDetail from "./_components/CourseDetail";
+import ChapterDetails from "./_components/ChapterDetails";
 
 function CoursePage({ params }) {
   const { user } = useUser();
@@ -33,6 +34,7 @@ function CoursePage({ params }) {
       <h2 className="font-bold text-center text-2xl">Course Layout</h2>
       <CourseInfo course={course} />
       <CourseDetail course={course} />
+      <ChapterDetails course={course} />
     </div>
   );
 }
