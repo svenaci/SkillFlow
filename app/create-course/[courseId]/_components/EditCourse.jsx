@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -13,8 +13,26 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { Button } from "@/components/ui/button";
+import { db } from "@/configs/db";
+import { CourseList } from "@/configs/schema";
 
 function EditCourse({ course }) {
+  const [courseName, setCourseName] = useState();
+  const [courseDescription, setCourseDescription] = useState();
+
+  const onUpdate = async () => {
+    course.courseOutput.courseName = courseName;
+    course.courseOutput.description = courseDescription;
+    await db.update(CourseList).set({
+      courseOutput: course?.courseOutput,
+    });
+  };
+
+  useEffect(() => {
+    setCourseName(course.courseOutput.courseName);
+    setCourseDescription(course.courseOutput.courseDescription);
+  }, [course]);
+
   return (
     <Dialog>
       <DialogTrigger>
@@ -27,19 +45,21 @@ function EditCourse({ course }) {
             <div className="mt-3">
               <label>Course Title</label>
               <Input defaultValue={course?.courseOutput?.courseName} />
+              onChange={(e) => setCourseName(e?.target.value)}
             </div>
             <div className="mt-3">
               <label>Description</label>
               <Textarea
                 className="h-auto"
                 defaultValue={course?.courseOutput?.description}
+                onChange={(e) => setCourseDescription(e?.target.value)}
               />
             </div>
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
           <DialogClose>
-            <Button>Save</Button>
+            <Button onClick={onUpdate}>Save</Button>
           </DialogClose>
         </DialogFooter>
       </DialogContent>
