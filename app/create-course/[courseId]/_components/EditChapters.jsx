@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -10,9 +12,33 @@ import {
 import { HiPencilSquare } from "react-icons/hi2";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { CourseList } from "@/configs/schema";
+import { eq } from "drizzle-orm";
+import { db } from "@/configs/db";
 
 function EditChapters({ course, index }) {
   const chapters = course?.courseOutput?.chapters;
+  const [name, setName] = useState();
+  const [about, setAbout] = useState();
+
+  const onUpdate = async () => {
+    course.courseOutput.chapters[index].chapterName = name;
+    course.courseOutput.chapters[index].about = about;
+
+    await db
+      .update(CourseList)
+      .set({
+        courseOutput: course?.courseOutput,
+      })
+      .where(eq(CourseList?.id, course?.id))
+      .returning({ id: CourseList.courseOutput });
+  };
+
+  useEffect(() => {
+    setName(chapters[index]?.chapterName);
+    setAbout(chapters[index]?.about);
+  }, [course]);
 
   return (
     <Dialog>
@@ -27,7 +53,7 @@ function EditChapters({ course, index }) {
               <label>Course Title</label>
               <Input
                 defaultValue={chapters[index].chapterName}
-                onChange={(e) => setCourseName(e?.target.value)}
+                onChange={(e) => setName(e?.target.value)}
               />
             </div>
             <div className="mt-3">
@@ -35,11 +61,16 @@ function EditChapters({ course, index }) {
               <Textarea
                 className="h-auto"
                 defaultValue={chapters[index].about}
-                onChange={(e) => setCourseDescription(e?.target.value)}
+                onChange={(e) => setAbout(e?.target.value)}
               />
             </div>
           </DialogDescription>
         </DialogHeader>
+        <DialogFooter>
+          <DialogClose>
+            <Button onClick={onUpdate}>Save</Button>
+          </DialogClose>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
