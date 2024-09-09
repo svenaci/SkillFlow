@@ -8,8 +8,12 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { HiPencilSquare } from "react-icons/hi2";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 
 function EditChapters({ course, index }) {
+  const chapters = course?.courseOutput?.chapters;
+
   return (
     <Dialog>
       <DialogTrigger>
@@ -17,10 +21,23 @@ function EditChapters({ course, index }) {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Are you absolutely sure?</DialogTitle>
+          <DialogTitle>Edit Chapter</DialogTitle>
           <DialogDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
+            <div className="mt-3">
+              <label>Course Title</label>
+              <Input
+                defaultValue={chapters[index].chapterName}
+                onChange={(e) => setCourseName(e?.target.value)}
+              />
+            </div>
+            <div className="mt-3">
+              <label>Description</label>
+              <Textarea
+                className="h-auto"
+                defaultValue={chapters[index].about}
+                onChange={(e) => setCourseDescription(e?.target.value)}
+              />
+            </div>
           </DialogDescription>
         </DialogHeader>
       </DialogContent>
