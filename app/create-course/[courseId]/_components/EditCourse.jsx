@@ -15,6 +15,7 @@ import { DialogClose } from "@radix-ui/react-dialog";
 import { Button } from "@/components/ui/button";
 import { db } from "@/configs/db";
 import { CourseList } from "@/configs/schema";
+import { eq } from "drizzle-orm";
 
 function EditCourse({ course }) {
   const [courseName, setCourseName] = useState();
@@ -23,14 +24,19 @@ function EditCourse({ course }) {
   const onUpdate = async () => {
     course.courseOutput.courseName = courseName;
     course.courseOutput.description = courseDescription;
-    await db.update(CourseList).set({
-      courseOutput: course?.courseOutput,
-    });
+
+    const res = await db
+      .update(CourseList)
+      .set({
+        courseOutput: course?.courseOutput,
+      })
+      .where(eq(CourseList?.id, course?.id))
+      .returning({ id: CourseList.courseOutput });
   };
 
   useEffect(() => {
-    setCourseName(course.courseOutput.courseName);
-    setCourseDescription(course.courseOutput.courseDescription);
+    setCourseName(course?.courseOutput?.courseName);
+    setCourseDescription(course?.courseOutput?.courseDescription);
   }, [course]);
 
   return (
@@ -44,8 +50,10 @@ function EditCourse({ course }) {
           <DialogDescription>
             <div className="mt-3">
               <label>Course Title</label>
-              <Input defaultValue={course?.courseOutput?.courseName} />
-              onChange={(e) => setCourseName(e?.target.value)}
+              <Input
+                defaultValue={course?.courseOutput?.courseName}
+                onChange={(e) => setCourseName(e?.target.value)}
+              />
             </div>
             <div className="mt-3">
               <label>Description</label>
