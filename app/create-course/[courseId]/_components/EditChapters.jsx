@@ -17,7 +17,7 @@ import { CourseList } from "@/configs/schema";
 import { eq } from "drizzle-orm";
 import { db } from "@/configs/db";
 
-function EditChapters({ course, index }) {
+function EditChapters({ course, index, refreshData }) {
   const chapters = course?.courseOutput?.chapters;
   const [name, setName] = useState();
   const [about, setAbout] = useState();
@@ -33,6 +33,8 @@ function EditChapters({ course, index }) {
       })
       .where(eq(CourseList?.id, course?.id))
       .returning({ id: CourseList.courseOutput });
+
+    refreshData(true);
   };
 
   useEffect(() => {
