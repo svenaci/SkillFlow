@@ -3,13 +3,20 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { HiOutlinePuzzlePiece } from "react-icons/hi2";
 import EditCourse from "./EditCourse";
+import { ref, uploadBytes } from "firebase/storage";
+import { storage } from "@/configs/firebaseConfig";
 
 export default function CourseInfo({ course, refreshData }) {
   const [selectedFile, setSelectedFile] = useState();
 
-  const onFileSelected = (event) => {
+  const onFileSelected = async (event) => {
     const file = event.target.files[0];
     setSelectedFile(URL.createObjectURL(file));
+    const fileName = Date.now() + ".jpg";
+    const storageRef = ref(storage, "ai-course/" + fileName);
+    await uploadBytes(storageRef, file).then((snapshot) => {
+      console.log("Upload fule completes");
+    });
   };
 
   return (
