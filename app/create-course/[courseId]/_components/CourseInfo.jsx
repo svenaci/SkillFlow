@@ -3,8 +3,11 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { HiOutlinePuzzlePiece } from "react-icons/hi2";
 import EditCourse from "./EditCourse";
-import { ref, uploadBytes } from "firebase/storage";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "@/configs/firebaseConfig";
+import { db } from "@/configs/db";
+import { CourseList } from "@/configs/schema";
+import { eq } from "drizzle-orm";
 
 export default function CourseInfo({ course, refreshData }) {
   const [selectedFile, setSelectedFile] = useState();
@@ -14,9 +17,20 @@ export default function CourseInfo({ course, refreshData }) {
     setSelectedFile(URL.createObjectURL(file));
     const fileName = Date.now() + ".jpg";
     const storageRef = ref(storage, "ai-course/" + fileName);
-    await uploadBytes(storageRef, file).then((snapshot) => {
-      console.log("Upload fule completes");
-    });
+    await uploadBytes(storageRef, file)
+      .then((snapshot) => {
+        console.log("Upload fule completes");
+      })
+      .then((response) => {
+        getDownloadURL(storageRef).then(async (downloadUrl) => {
+          await db
+            .update(CourseList)
+            .set({
+              courseBanner: downloadUrl,
+            })
+            .where(eq(CourseList.id, course?.id));
+        });
+      });
   };
 
   return (
