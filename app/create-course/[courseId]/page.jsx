@@ -8,6 +8,7 @@ import CourseInfo from "./_components/CourseInfo";
 import CourseDetail from "./_components/CourseDetail";
 import ChapterDetails from "./_components/ChapterDetails";
 import { Button } from "@/components/ui/button";
+import { generateChapterContent_ai } from "@/configs/AIModel";
 
 function CoursePage({ params }) {
   const { user } = useUser();
@@ -33,7 +34,7 @@ function CoursePage({ params }) {
 
   const generateChapterContent = () => {
     const chapters = course?.courseOutput?.chapters;
-    chapters.forEach((chapter, index) => {
+    chapters.forEach(async (chapter, index) => {
       const PROMPT =
         "Explain the concept in Detail on Topic: " +
         course?.name +
@@ -41,6 +42,18 @@ function CoursePage({ params }) {
         chapter?.chapterName +
         ", in JSON format with list of array with field as title, explanation on given chapter in detail, Code Example(Code field in <precode> format) if applicable";
       console.log(PROMPT);
+
+      /*
+        15 RPM (requests per minute)
+        1 million TPM (tokens per minute)
+        1,500 RPD (requests per day)
+      */
+      try {
+        const response = await generateChapterContent_ai.sendMessage(PROMPT);
+        console.log(response?.response?.text());
+      } catch (e) {
+        console.log(e);
+      }
     });
   };
   return (
