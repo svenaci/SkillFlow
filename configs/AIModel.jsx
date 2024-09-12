@@ -43,5 +43,45 @@ export const generateCourse = model.startChat({
   ],
 });
 
+export const generateChapterContent = model.startChat({
+  generationConfig,
+  // safetySettings: Adjust safety settings
+  // See https://ai.google.dev/gemini-api/docs/safety-settings
+  history: [
+    {
+      role: "user",
+      parts: [
+        {
+          text: "Explain the concept in Detail on Topic: MERN stack, Chapter:Introduction to the MERN Stack in JSON format with field as title, description in detail, Code Example (HTML Code format) if applicable",
+        },
+      ],
+    },
+    {
+      role: "model",
+      parts: [
+        {
+          text: "```json\n{\n  \"title\": \"Introduction to the MERN Stack\",\n  \"description\": \"The MERN stack is a popular JavaScript-based technology stack for building modern web applications. It stands for MongoDB, Express.js, React.js, and Node.js. Each component plays a crucial role in creating a robust and scalable web application:\\n\\n* **MongoDB:** A NoSQL database that stores data in a flexible JSON-like document format. It's highly scalable, making it suitable for handling large amounts of data.\\n* **Express.js:** A fast and minimal web framework for Node.js. It simplifies the creation of RESTful APIs and server-side logic.\\n* **React.js:** A JavaScript library for building user interfaces. It uses a component-based architecture, which allows for modularity and reusability of code. Its virtual DOM efficiently updates the user interface.\\n* **Node.js:** A JavaScript runtime environment that allows you to execute JavaScript code outside of a web browser. It enables efficient server-side development and real-time applications.\\n\\nThe MERN stack offers several advantages, including:\\n\\n* **JavaScript Everywhere:** Using JavaScript across the entire stack simplifies development and reduces the need to learn multiple languages.\\n* **Scalability:** MongoDB and Node.js are designed for handling high volumes of data and users.\\n* **Fast Development:** React.js's component-based architecture promotes code reuse and rapid development.\\n* **Large Community:** The MERN stack boasts a vast and active community, providing ample resources and support.\\n\\n## How it Works\\n\\nThe MERN stack works together to build web applications as follows:\\n\\n1. **Client-Side (React.js):** The user interacts with the frontend built with React.js. User actions trigger requests to the backend.\\n2. **Server-Side (Node.js and Express.js):** Node.js handles the server logic, while Express.js provides a framework for creating routes and APIs.\\n3. **Database (MongoDB):** MongoDB stores and retrieves data that the backend needs to respond to requests from the frontend.\\n4. **Data Exchange:**  The frontend communicates with the backend using HTTP requests, sending data to the database and receiving data back. \\n\\n## Example:\\n\\nLet's consider a simple application that displays a list of users fetched from a database:\\n\\n* **Frontend (React.js):**\\n\\n```html\\n<div>\\n  <h1>User List</h1>\\n  <ul>\\n    {users.map((user) => (\\n      <li key={user._id}>{user.name}</li>\\n    ))}\\n  </ul>\\n</div>\\n```\\n\\n* **Backend (Node.js and Express.js):**\\n\\n```javascript\\nconst express = require('express');\\nconst app = express();\\nconst MongoClient = require('mongodb').MongoClient;\\n\\n// Connect to MongoDB\\nMongoClient.connect('mongodb://localhost:27017/your_database', (err, client) => {\\n  if (err) return console.log(err);\\n  const db = client.db('your_database');\\n  const collection = db.collection('users');\\n\\n  // Get all users\\n  app.get('/users', (req, res) => {\\n    collection.find({}).toArray((err, users) => {\\n      if (err) return res.status(500).send(err);\\n      res.send(users);\\n    });\\n  });\\n\\n  app.listen(3000, () => console.log('Server started on port 3000'));\\n});\\n```\\n\\nThis example demonstrates how React.js fetches user data from a MongoDB database through an Express.js API endpoint. The frontend receives the data and dynamically displays it on the user interface.\",\n  \"codeExample\": \"\"\n}\n```",
+        },
+      ],
+    },
+    {
+      role: "user",
+      parts: [
+        {
+          text: "Explain the concept in Detail on Topic: MERN stack, Chapter:Introduction to the MERN Stack, in JSON format with list of array with field as title, explanation on given chapter in detail, Code Example(Code field in <precode> format) if applicable",
+        },
+      ],
+    },
+    {
+      role: "model",
+      parts: [
+        {
+          text: "```json\n[\n  {\n    \"title\": \"Introduction to the MERN Stack\",\n    \"explanation\": \"The MERN stack is a popular JavaScript-based technology stack for building modern web applications. It stands for MongoDB, Express.js, React.js, and Node.js. Each component plays a crucial role in creating a robust and scalable web application:\\n\\n* **MongoDB:** A NoSQL database that stores data in a flexible JSON-like document format. It's highly scalable, making it suitable for handling large amounts of data.\\n* **Express.js:** A fast and minimal web framework for Node.js. It simplifies the creation of RESTful APIs and server-side logic.\\n* **React.js:** A JavaScript library for building user interfaces. It uses a component-based architecture, which allows for modularity and reusability of code. Its virtual DOM efficiently updates the user interface.\\n* **Node.js:** A JavaScript runtime environment that allows you to execute JavaScript code outside of a web browser. It enables efficient server-side development and real-time applications.\\n\\nThe MERN stack offers several advantages, including:\\n\\n* **JavaScript Everywhere:** Using JavaScript across the entire stack simplifies development and reduces the need to learn multiple languages.\\n* **Scalability:** MongoDB and Node.js are designed for handling high volumes of data and users.\\n* **Fast Development:** React.js's component-based architecture promotes code reuse and rapid development.\\n* **Large Community:** The MERN stack boasts a vast and active community, providing ample resources and support.\\n\\n## How it Works\\n\\nThe MERN stack works together to build web applications as follows:\\n\\n1. **Client-Side (React.js):** The user interacts with the frontend built with React.js. User actions trigger requests to the backend.\\n2. **Server-Side (Node.js and Express.js):** Node.js handles the server logic, while Express.js provides a framework for creating routes and APIs.\\n3. **Database (MongoDB):** MongoDB stores and retrieves data that the backend needs to respond to requests from the frontend.\\n4. **Data Exchange:**  The frontend communicates with the backend using HTTP requests, sending data to the database and receiving data back. \\n\\n## Example:\\n\\nLet's consider a simple application that displays a list of users fetched from a database:\\n\\n* **Frontend (React.js):**\\n\\n```html\\n<div>\\n  <h1>User List</h1>\\n  <ul>\\n    {users.map((user) => (\\n      <li key={user._id}>{user.name}</li>\\n    ))}\\n  </ul>\\n</div>\\n```\\n\\n* **Backend (Node.js and Express.js):**\\n\\n```javascript\\nconst express = require('express');\\nconst app = express();\\nconst MongoClient = require('mongodb').MongoClient;\\n\\n// Connect to MongoDB\\nMongoClient.connect('mongodb://localhost:27017/your_database', (err, client) => {\\n  if (err) return console.log(err);\\n  const db = client.db('your_database');\\n  const collection = db.collection('users');\\n\\n  // Get all users\\n  app.get('/users', (req, res) => {\\n    collection.find({}).toArray((err, users) => {\\n      if (err) return res.status(500).send(err);\\n      res.send(users);\\n    });\\n  });\\n\\n  app.listen(3000, () => console.log('Server started on port 3000'));\\n});\\n```\\n\\nThis example demonstrates how React.js fetches user data from a MongoDB database through an Express.js API endpoint. The frontend receives the data and dynamically displays it on the user interface.\",\n    \"code\": \"\"\n  }\n]\n```",
+        },
+      ],
+    },
+  ],
+});
+
 //   const result = await chatSession.sendMessage("INSERT_INPUT_HERE");
 //   console.log(result.response.text());
