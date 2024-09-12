@@ -38,8 +38,9 @@ function CoursePage({ params }) {
         "Explain the concept in Detail on Topic: " +
         course?.name +
         ", Chapter:" +
-        chapter?.name +
-        " in JSON format with field as title, description in detail, Code Example (HTML Code format) if applicable";
+        chapter?.chapterName +
+        ", in JSON format with list of array with field as title, explanation on given chapter in detail, Code Example(Code field in <precode> format) if applicable";
+      console.log(PROMPT);
     });
   };
   return (
@@ -48,7 +49,9 @@ function CoursePage({ params }) {
       <CourseInfo course={course} refreshData={() => getCourse()} />
       <CourseDetail course={course} />
       <ChapterDetails course={course} refreshData={() => getCourse()} />
-      <Button className="my-10">Generate Chapter Content</Button>
+      <Button onClick={generateChapterContent} className="my-10">
+        Generate Chapter Content
+      </Button>
     </div>
   );
 }
