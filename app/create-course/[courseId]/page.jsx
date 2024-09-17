@@ -9,6 +9,7 @@ import CourseDetail from "./_components/CourseDetail";
 import ChapterDetails from "./_components/ChapterDetails";
 import { Button } from "@/components/ui/button";
 import { generateChapterContent_ai } from "@/configs/AIModel";
+import youtubeService from "@/configs/youtubeService";
 
 function CoursePage({ params }) {
   const { user } = useUser();
@@ -51,6 +52,12 @@ function CoursePage({ params }) {
       try {
         const response = await generateChapterContent_ai.sendMessage(PROMPT);
         console.log(response?.response?.text());
+
+        youtubeService
+          .getVideos(course?.name + ":" + chapter?.chapterName)
+          .then((response) => {
+            console.log(response);
+          });
       } catch (e) {
         console.log(e);
       }
